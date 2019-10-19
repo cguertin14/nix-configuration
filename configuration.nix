@@ -6,22 +6,34 @@
 
 {
   imports =
-    [ 
-      <nixpkgs/nixos/modules/hardware/all-firmware.nix>
-      ./hardware-configuration.nix
+    [
+      ./hardware-configuration.nix 
       ./zsh.nix
     ];
 
   # Boot settings
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.cleanTmpDir = true;
-  boot.loader.grub.useOSProber = true;
-  boot.loader.grub.device = "/dev/nvme0n1p1";
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+   boot.loader = {
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi";
+    };
+    systemd-boot.enable = false;
+    grub = {
+      enable = true;
+      version = 2;
+      enableCryptodisk = true;
+      useOSProber = true;
+      device = "nodev";
+      efiSupport = true;
+    };
+  };
 
   networking.hostName = "cguertz"; # Define your hostname.
   networking.networkmanager.enable = true;
+  
+  # Android license acceptation
 
   # Automatic GC of nix files
   nix.gc = {
@@ -52,10 +64,11 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.android_sdk.accept_license = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; with kdeApplications; [
+  environment.systemPackages = with pkgs; [
     wget curl vim telnet
 
     git tree cmake gcc
@@ -70,7 +83,7 @@
 
     mongodb-compass redshift watchman openjdk 
 
-    adapta-kde-theme papirus-icon-theme
+    adapta-kde-theme papirus-icon-theme caffeine-ng
   ];
 
   # Fonts
@@ -100,6 +113,7 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
 
   services = {
     printing.enable = true;
@@ -121,20 +135,15 @@
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  
-  # Video drivers
-  environment.variables = {
-    MESA_LOADER_DRIVER_OVERRIDE = "iris";
-  };
-  hardware.opengl.package = (pkgs.mesa.override {
-    galliumDrivers = [ "nouveau" "virgl" "swrast" "iris" ];
-  }).drivers;
 
+  # Android configuration
+  programs.adb.enable = true;
+  
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.cguertz = {
      isNormalUser = true;
      shell = pkgs.zsh;
-     extraGroups = ["wheel"  "networkmanager" "docker" "input" "audio" "video"]; # Enable ‘sudo’ for the user.
+     extraGroups = ["wheel"  "networkmanager" "docker" "input" "audio" "video" "adbusers"]; # Enable ‘sudo’ for the user.
   };
 
   # This value determines the NixOS release with which your system is to be

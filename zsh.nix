@@ -131,12 +131,12 @@ dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/[
 dbash() { docker exec -it $(docker ps -aqf "name=$1") bash; }
 unset ZLE_RPROMPT_INDENT
 
-# Android configuration.
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+#export ANDROID_HOME=$HOME/Android/Sdk
+#export PATH=$PATH:$ANDROID_HOME/emulator
+#export PATH=$PATH:$ANDROID_HOME/tools
+#export PATH=$PATH:$ANDROID_HOME/tools/bin
+#export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH="$PWD/node_modules/.bin/:$PATH"
     '';
   };
 }
