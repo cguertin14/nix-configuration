@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs,... }:
 
 {
   imports =
@@ -12,12 +12,12 @@
     ];
 
   # Boot settings
+  boot.plymouth.enable = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.cleanTmpDir = true;
    boot.loader = {
     efi = {
       canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
     };
     systemd-boot.enable = false;
     grub = {
@@ -69,11 +69,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget curl vim telnet
+    wget curl vim telnet neofetch
 
-    git tree cmake gcc
+    git tree cmake gcc tilda tig zip unzip
 
-    firefox libreoffice thunderbird
+    firefox libreoffice thunderbird heroku slack
 
     docker docker-compose nodejs
 
@@ -84,6 +84,8 @@
     mongodb-compass redshift watchman openjdk 
 
     adapta-kde-theme papirus-icon-theme caffeine-ng
+
+    gwenview gimp okular ark vlc kdeApplications.spectacle
   ];
 
   # Fonts
@@ -153,4 +155,3 @@
   system.stateVersion = "19.09"; # Did you read the comment?
 
 }
-
