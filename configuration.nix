@@ -15,7 +15,7 @@
   boot.plymouth.enable = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.cleanTmpDir = true;
-   boot.loader = {
+  boot.loader = {
     efi = {
       canTouchEfiVariables = true;
     };
@@ -42,11 +42,24 @@
     options = "--delete-older-than 10d";
   };
 
+  #services.xserver.monitorSection = ''
+  #  DisplaySize 406 228
+  #'';
+
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces.wlp59s0.useDHCP = true;
+
+  # Display drivers.  
+  hardware.bumblebee.enable = true;
+  #services.xserver.videoDrivers = [ "nvidia" ];
+  #hardware.nvidia.optimus_prime.enable = true;
+  # Bus ID of the NVIDIA GPU. You can find it using lspci
+  #hardware.nvidia.optimus_prime.nvidiaBusId = "PCI:1:0:0";
+  # Bus ID of the Intel GPU. You can find it using lspci
+  #hardware.nvidia.optimus_prime.intelBusId = "PCI:0:2:0";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -86,6 +99,8 @@
     adapta-kde-theme papirus-icon-theme caffeine-ng
 
     gwenview gimp okular ark vlc kdeApplications.spectacle
+
+    kdeApplications.kcalc
   ];
 
   # Fonts
@@ -101,9 +116,10 @@
 
   # Virtualisation.
   virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.guest.enable = true;
+  # virtualisation.virtualbox.guest.enable = true; -> Causes problems.
   virtualisation.docker.enable = true;
-  virtualisation.libvirtd.enable = true;
+  # virtualisation.libvirtd.enable = true; -> Causes problems.
+  
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
