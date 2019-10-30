@@ -100,7 +100,7 @@
 
     gwenview gimp okular ark vlc kdeApplications.spectacle
 
-    kdeApplications.kcalc
+    kdeApplications.kcalc gnumake androidsdk_9_0
   ];
 
   # Fonts
@@ -125,7 +125,7 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall.enable = true;
+  networking.firewall.enable = false;
   networking.firewall.allowPing = false;
 
   # Enable sound.
