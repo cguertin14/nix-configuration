@@ -18,6 +18,7 @@
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi";
     };
     systemd-boot.enable = false;
     grub = {
@@ -100,7 +101,7 @@
 
     gwenview gimp okular ark vlc kdeApplications.spectacle
 
-    kdeApplications.kcalc gnumake androidsdk_9_0
+    kdeApplications.kcalc gnumake androidsdk_9_0 docker-machine-kvm
   ];
 
   # Fonts
@@ -154,7 +155,10 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
-  # Android configuration
+  # Android configuration  };
+
+  # This value determines the NixOS release with which your system is to be
+  # compatible, in order to avoid
   programs.adb.enable = true;
   
   # Define a user account. Don't forget to set a password with ‘passwd’.
