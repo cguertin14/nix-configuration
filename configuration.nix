@@ -101,7 +101,9 @@
 
     gwenview gimp okular ark vlc kdeApplications.spectacle
 
-    kdeApplications.kcalc gnumake androidsdk_9_0 docker-machine-kvm
+    kdeApplications.kcalc gnumake androidsdk_9_0 docker-machine-kvm 
+
+    binutils python php phpPackages.composer
   ];
 
   # Fonts
@@ -154,8 +156,6 @@
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-
-  # Android configuration  };
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid
