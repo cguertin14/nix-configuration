@@ -55,12 +55,6 @@
 
   # Display drivers.  
   hardware.bumblebee.enable = true;
-  #services.xserver.videoDrivers = [ "nvidia" ];
-  #hardware.nvidia.optimus_prime.enable = true;
-  # Bus ID of the NVIDIA GPU. You can find it using lspci
-  #hardware.nvidia.optimus_prime.nvidiaBusId = "PCI:1:0:0";
-  # Bus ID of the Intel GPU. You can find it using lspci
-  #hardware.nvidia.optimus_prime.intelBusId = "PCI:0:2:0";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -103,9 +97,11 @@
 
     kdeApplications.kcalc gnumake androidsdk_9_0 docker-machine-kvm 
 
-    binutils python php phpPackages.composer
-  ];
+    binutils python php phpPackages.composer starship gnome3.nautilus
 
+    pulseaudio bluedevil bluez
+  ];
+   
   # Fonts
   fonts.fonts = with pkgs; [
     fira-code
@@ -133,8 +129,18 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
+    # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
+    # Only the full build has Bluetooth support, so it must be selected here.
+    package = pkgs.pulseaudioFull;
+  };
   hardware.bluetooth.enable = true;
+  hardware.bluetooth.extraConfig = "
+    [General]
+    Enable=Source,Sink,Media,Socket
+  ";
 
   services = {
     printing.enable = true;

@@ -74,6 +74,7 @@ export KUBECONFIG=~/.kube/config
 #export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(starship init zsh)"
 emulate sh -c 'source /etc/profile'
 source <(kubectl completion zsh)
 [ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases
