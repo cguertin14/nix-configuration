@@ -101,6 +101,13 @@
 
     pulseaudio bluedevil bluez
   ];
+
+  # Power management
+  powerManagement = { 
+    enable = true; 
+    cpuFreqGovernor = "ondemand";
+    scsiLinkPolicy = "med_power_with_dipm";
+  };
    
   # Fonts
   fonts.fonts = with pkgs; [
@@ -145,10 +152,10 @@
   services = {
     printing.enable = true;
     openssh.enable = true;
-    tlp.enable = true;
-    tlp.extraConfig = ''
-      DISK_DEVICES="nvme0n1p3"
-    '';
+    #tlp.enable = true;
+    #tlp.extraConfig = ''
+    #  DISK_DEVICES="nvme0n1p3"
+    #'';
   };
 
   # Enable the X11 windowing system.
