@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs,... }:
+{ config, pkgs, ... }:
 
 {
   imports =
@@ -30,11 +30,8 @@
       efiSupport = true;
     };
   };
-
   networking.hostName = "cguertz"; # Define your hostname.
   networking.networkmanager.enable = true;
-  
-  # Android license acceptation
 
   # Automatic GC of nix files
   nix.gc = {
@@ -99,16 +96,14 @@
 
     binutils python php phpPackages.composer starship gnome3.nautilus
 
-    pulseaudio bluedevil bluez
+    pulseaudio bluedevil bluez bat discord kind charles peek
   ];
 
-  # Power management
-  powerManagement = { 
-    enable = true; 
-    cpuFreqGovernor = "ondemand";
-    scsiLinkPolicy = "med_power_with_dipm";
-  };
-   
+  networking.extraHosts =
+  ''
+    192.168.10.10 homestead.test
+  '';
+
   # Fonts
   fonts.fonts = with pkgs; [
     fira-code
@@ -122,7 +117,9 @@
 
   # Virtualisation.
   virtualisation.virtualbox.host.enable = true;
-  # virtualisation.virtualbox.guest.enable = true; -> Causes problems.
+  #virtualisation.virtualbox.host.enableExtensionPack = true;
+  #virtualisation.virtualbox.host.enableHardening = true;
+  # virtualisation.virtualbox.guest.enable = true; # -> Causes problems.
   virtualisation.docker.enable = true;
   # virtualisation.libvirtd.enable = true; -> Causes problems.
   
@@ -134,7 +131,7 @@
   networking.firewall.enable = false;
   networking.firewall.allowPing = false;
 
-  # Enable sound.
+  # Enable sound and audio.
   sound.enable = true;
   hardware.pulseaudio = {
     enable = true;
@@ -148,15 +145,16 @@
     [General]
     Enable=Source,Sink,Media,Socket
   ";
-
   services = {
     printing.enable = true;
     openssh.enable = true;
-    #tlp.enable = true;
-    #tlp.extraConfig = ''
-    #  DISK_DEVICES="nvme0n1p3"
-    #'';
+    tlp.enable = true;
+    tlp.extraConfig = ''
+      DISK_DEVICES="nvme0n1p3"
+    '';
   };
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -178,7 +176,7 @@
   users.users.cguertz = {
      isNormalUser = true;
      shell = pkgs.zsh;
-     extraGroups = ["wheel"  "networkmanager" "docker" "input" "audio" "video" "adbusers"]; # Enable ‘sudo’ for the user.
+     extraGroups = ["wheel"  "networkmanager" "docker" "input" "audio" "video" "adbusers" "vboxusers"]; # Enable ‘sudo’ for the user.
   };
 
   # This value determines the NixOS release with which your system is to be
