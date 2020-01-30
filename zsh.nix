@@ -39,14 +39,17 @@ function ks {
      d)
          export KUBECONFIG=~/.kube/config
          ;;
-     s)
+     k)
+	 export KUBECONFIG="$(kind get kubeconfig-path --name="kind")"
+	 ;;
+     as)
 	 export KUBECONFIG=~/Documents/Work/Infra/config/cluster/k8s-artifex-cluster-staging-kubeconfig.yaml
 	 ;;
-     p)
+     ap)
          export KUBECONFIG=~/Documents/Work/Infra/config/cluster/k8s-artifex-cluster-kubeconfig.yaml
          ;;
      *)
-         echo "Utilisation: $0 {d|s|p}"
+         echo "Utilisation: $0 {d|k|as|ap}"
          ;;
    esac
 }
@@ -64,12 +67,16 @@ function goto {
      perso)
 	 cd ~/Documents/Perso
 	 ;;
+     infrac)
+	 cd ~/Documents/ETS/Cedille/cloud-sre
+	 ;;
      *)
          echo "Utilisation: $0 {work|infra|ets|perso}"
          ;;
    esac
 }
 #export GOPATH=$HOME/go
+alias cat=bat
 export KUBECONFIG=~/.kube/config
 #export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

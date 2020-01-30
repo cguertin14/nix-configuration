@@ -74,7 +74,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget curl vim telnet neofetch
+    wget curl vim telnet neofetch vagrant
 
     git tree cmake gcc tilda tig zip unzip
 
@@ -96,7 +96,9 @@
 
     binutils python php phpPackages.composer starship gnome3.nautilus
 
-    pulseaudio bluedevil bluez bat discord kind charles peek
+    pulseaudio bluedevil bluez bat discord kind charles peek 
+
+    powertop xorg.xhost burp unetbootin
   ];
 
   networking.extraHosts =
@@ -140,6 +142,7 @@
     # Only the full build has Bluetooth support, so it must be selected here.
     package = pkgs.pulseaudioFull;
   };
+  hardware.bluetooth.powerOnBoot = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.extraConfig = "
     [General]
@@ -163,6 +166,8 @@
 
   # Enable touchpad support.
   services.xserver.libinput.enable = true;
+  services.xserver.libinput.tapping = false;
+  services.xserver.libinput.clickMethod = "clickfinger";
 
   # Enable the KDE Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
